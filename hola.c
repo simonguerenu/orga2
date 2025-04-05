@@ -70,7 +70,16 @@ void ej6(){
 
 }
 
+void ej7(){
+    int a = 5;
+    int b = 3;
+    int c = 2;
+    int d = 1;
+    int resultado1 = a + b * c / d;
+    printf("%d", resultado1); 
+}
+
 int main(){
-    ej6();
+    ej7();
 }
 
