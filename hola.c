@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include "hola.h"
 #include <inttypes.h>
-
+#include <time.h>
 void ej3() {
         //Ejercicio3
         char c = 'c';
@@ -168,12 +170,26 @@ void ej12(int rotacion){
     printf("\n");
 }
 
-int main(){
-    ej12(0);
-    ej12(1);
-    ej12(2);
-    ej12(3);
-    ej12(4);
-    ej12(5);
+void ej13(){
+    srand(time(NULL));
+    int dado[6] = {0};
+    for(int i = 1; i <= 60000000; i++){
+        dado[(rand() % 6)]++; 
+    }
+    for(int j = 0; j < 6; j++){
+        printf("Cara %d: %d\n", j+1, dado[j]);
+    }
 }
+
+int factorial(int num){
+    if(num == 0){
+        return 1;
+    }
+    return num*factorial(num-1);
+}
+
+void hola1(){
+    printf("soy Hola1!");
+}
+
 

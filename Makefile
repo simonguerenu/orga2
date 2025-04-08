@@ -1,16 +1,21 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic
-TARGET = hola
+CFLAGS = -Wall -Wextra -pedantic -MMD -MP
+TARGET = binario
 
-all: hola
+SRCS = hola.c hola2.c main.c
+OBJS = $(SRCS:.c=.o)
 
-hola: hola.o
-		$(CC) $(CFLAGS) -c hola.o -o hola
+all: $(TARGET)
 
-hola.o: hola.c
-		$(CC) $(CFLAGS) -c hola.c -o hola.o
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+-include $(OBJS:.o=.d)
 
 clean:
-		rm *.o $(TARGET)
+	rm *.o $(TARGET) *.d
 
-.PHONY: all clean		
+.PHONY: all clean
