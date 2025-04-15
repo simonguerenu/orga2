@@ -19,15 +19,15 @@ void ej3() {
         unsigned long ul = 3942345L;
         long long ll = 2093435L;
 
-        printf("Tamaño char 2^%lu, valor: %c \n", sizeof(c), c);
-        printf("Tamaño unsigned char 2^%lu, valor: %hhu \n", sizeof(uc), uc);
-        printf("Tamaño short 2^%lu, valor: %d \n", sizeof(s), s);
-        printf("Tamaño unsigned short 2^%lu, valor: %hu \n", sizeof(us), us);
-        printf("Tamaño int 2^%lu, valor: %d \n", sizeof(i), i);
-        printf("Tamaño unsigned int 2^%lu, valor: %u \n", sizeof(u), u);
-        printf("Tamaño long 2^%lu, valor: %ld \n", sizeof(l), l);
-        printf("Tamaño unsigned long 2^%lu, valor: %lu \n", sizeof(ul), ul);
-        printf("Tamaño long long 2^%lu, valor: %lld \n", sizeof(ll), ll); 
+        printf("Tamaño char 2^%zu, valor: %c \n", sizeof(c), c);
+        printf("Tamaño unsigned char 2^%zu, valor: %hhu \n", sizeof(uc), uc);
+        printf("Tamaño short 2^%zu, valor: %d \n", sizeof(s), s);
+        printf("Tamaño unsigned short 2^%zu, valor: %hu \n", sizeof(us), us);
+        printf("Tamaño int 2^%zu, valor: %d \n", sizeof(i), i);
+        printf("Tamaño unsigned int 2^%zu, valor: %u \n", sizeof(u), u);
+        printf("Tamaño long 2^%zu, valor: %ld \n", sizeof(l), l);
+        printf("Tamaño unsigned long 2^%zu, valor: %lu \n", sizeof(ul), ul);
+        printf("Tamaño long long 2^%zu, valor: %lld \n", sizeof(ll), ll); 
     }
 
 void ej4() {
@@ -36,18 +36,18 @@ void ej4() {
         int16_t int16 = -340;
         int32_t int32 = 23000;
         int64_t int64 = -19390354;
-        printf("Tamaño int8: %lu, Tamaño valor: %"PRId8 "\n", sizeof(int8), int8);
-        printf("Tamaño int16: %lu, Tamaño valor: %"PRId16 "\n", sizeof(int16), int16);
-        printf("Tamaño int32: %lu, Tamaño valor: %"PRId32 "\n", sizeof(int32), int32);
-        printf("Tamaño int64: %lu, Tamaño valor: %"PRId64 "\n", sizeof(int64), int64);
+        printf("Tamaño int8: %zu, Tamaño valor: %" PRId8 "\n", sizeof(int8), int8);
+        printf("Tamaño int16: %zu, Tamaño valor: %" PRId16 "\n", sizeof(int16), int16);
+        printf("Tamaño int32: %zu, Tamaño valor: %" PRId32 "\n", sizeof(int32), int32);
+        printf("Tamaño int64: %zu, Tamaño valor: %" PRId64 "\n", sizeof(int64), int64);
         uint8_t uint8 = 200;
         uint16_t uint16 = 540;
         uint32_t uint32 = 73300;
         uint64_t uint64 = 850354;
-        printf("Tamaño int8: %lu, Tamaño valor: %"PRId8 "\n", sizeof(uint8), uint8);
-        printf("Tamaño int16: %lu, Tamaño valor: %"PRIu16 "\n", sizeof(uint16), uint16);
-        printf("Tamaño int32: %lu, Tamaño valor: %"PRIu32 "\n", sizeof(uint32), uint32);
-        printf("Tamaño int64: %lu, Tamaño valor: %"PRIu64 "\n", sizeof(uint64), uint64);
+        printf("Tamaño int8: %zu, Tamaño valor: %" PRId8 "\n", sizeof(uint8), uint8);
+        printf("Tamaño int16: %zu, Tamaño valor: %" PRIu16 "\n", sizeof(uint16), uint16);
+        printf("Tamaño int32: %zu, Tamaño valor: %" PRIu32 "\n", sizeof(uint32), uint32);
+        printf("Tamaño int64: %zu, Tamaño valor: %" PRIu64 "\n", sizeof(uint64), uint64);
     }
 
 void ej5(){
@@ -66,11 +66,11 @@ void ej6(){
     111, 110, 32, 97, 110, 100, 32, 105, 108, 108, 117, 115, 105, 111, 110};
     size_t length = sizeof(mensaje_secreto) / sizeof(int);
     char decoded[length];
-    for (int i = 0; i < length; i++) {
-    decoded[i] = (char) (mensaje_secreto[i]); // casting de int a char
+    for (size_t i = 0; i < length; i++) {
+        decoded[i] = (char) (mensaje_secreto[i]); // casting de int a char
     }
-    for (int i = 0; i < length; i++) {
-    printf("%c", decoded[i]);
+    for (size_t i = 0; i < length; i++) {
+        printf("%c", decoded[i]);
     }
 
 }
@@ -87,10 +87,10 @@ void ej7(){
     int resultado4_1 = a & b;
     int resultado4_2 = a | b;
     int resultado5 = ~a;
-    int resultado6_1 = a && b;
-    int resultado6_2 = a && b;
+    /*int resultado6_1 = a && b;
+    int resultado6_2 = a && b;*/
     int resultado7 = a << 1;
-    int resultado8 = a >> 1;
+    //int resultado8 = a >> 1;
     int resultado9_1 = a+=b;
     int resultado9_2 = a-=b;
     int resultado9_3 = a*=b;
@@ -197,7 +197,7 @@ void hola1(){
 
 fat32_t* new_fat32(){
     return malloc(sizeof(fat32_t));
-};
+}
 
 fat32_t* copy_fat32(fat32_t* file){
     fat32_t* tmp = malloc(sizeof(fat32_t));
@@ -211,7 +211,7 @@ void rm_fat32(fat32_t* file){
 
 ext4_t* new_ext4(){
     return malloc(sizeof(ext4_t));
-};
+}
 
 ext4_t* copy_ext4(ext4_t* file){
     ext4_t* tmp = malloc(sizeof(ext4_t));
@@ -225,7 +225,7 @@ void rm_ext4(ext4_t* file){
 
 ntfs_t* new_ntfs(){
     return malloc(sizeof(ntfs_t));
-};
+}
 
 ntfs_t* copy_ntfs(ntfs_t* file){
     ntfs_t* tmp = new_ntfs();
@@ -257,11 +257,45 @@ void listAddFirst(list_t* l, void* data) {
         case TypeFAT32:
             n->data = (void*) copy_fat32((fat32_t*) data);
         break;
+        case TypeEXT4:
+            n->data = (void*) copy_ext4((ext4_t*) data);
+        break;
+        case TypeNTFS:
+            n->data = (void*) copy_ntfs((ntfs_t*) data);
+        break;
     }
     n->next = l->first;
     l->first = n;
     l->size++;
 }
+
+void listAddLast(list_t* l, void* data) {
+    node_t* n = malloc(sizeof(node_t));
+    n->next = NULL;
+    switch(l->type) {
+        case TypeFAT32:
+            n->data = (void*) copy_fat32((fat32_t*) data);
+        break;
+        case TypeEXT4:
+            n->data = (void*) copy_ext4((ext4_t*) data);
+        break;
+        case TypeNTFS:
+            n->data = (void*) copy_ntfs((ntfs_t*) data);
+        break;
+    }
+    if(l->size == 0){
+        l->first = n;
+        l->size++;
+        return;
+    }
+    node_t* ultNodo = l->first;
+    for(uint8_t i = 0; i < l->size-1; i++){
+        ultNodo = ultNodo->next;
+    }
+    ultNodo->next = n;
+    l->size++;
+}
+
 //se asume: i < l->size
 void* listGet(list_t* l, uint8_t i){
     node_t* n = l->first;
@@ -298,34 +332,58 @@ void listDelete(list_t* l){
             case TypeFAT32:
                 rm_fat32((fat32_t*) tmp->data);
             break;
+            case TypeEXT4:
+                rm_ext4((ext4_t*) tmp->data);
+            break;
+            case TypeNTFS:
+                rm_ntfs((ntfs_t*) tmp->data);
+            break;
         }
         free(tmp);
     }
     free(l);
 }
 
-void printLista(){
-    list_t* l =listNew(TypeFAT32);
-    fat32_t dato = 23;
-    fat32_t dato2 = 224;
-    listAddFirst(l, (void*) &dato);
-    listAddFirst(l, &dato2);
+void printLista(list_t* l){
     node_t* n = l->first;
     switch(l->type) {
         case TypeFAT32:
             for(int i = 0; i < l->size; i++){
                 printf("%"PRIu32"\n", *(fat32_t*)n->data);
+                n = n->next;
             }
         break;
         case TypeEXT4:
         for(int i = 0; i < l->size; i++){
             printf("%"PRIu16"\n", *(ext4_t*) n->data);
+            n = n->next;
         }
         break;
         case TypeNTFS:
             for(int i = 0; i < l->size; i++){
                 printf("%"PRIu8"\n", *(ntfs_t*)(n->data));
+                n = n->next;
             }
         break;
         } 
+}
+
+//se asume: i < l->size
+node_t* listGetNodo(list_t* l, uint8_t i){
+    node_t* n = l->first;
+    for(uint8_t j = 0; j < i; j++)
+        n = n->next;
+    return n;
+}
+
+//se asume que i y j < l->size
+void cambiarOrdenLista(list_t* l, uint8_t i, uint8_t j){
+    if(l->size <= 1){
+        return;
+    }
+    node_t* nodo1 = listGetNodo(l, i);
+    node_t* nodo2 = listGetNodo(l, j);
+    void* data1 = nodo1->data;
+    nodo1->data = nodo2->data;
+    nodo2->data =  data1;
 }

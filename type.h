@@ -16,7 +16,6 @@ typedef enum e_type {
 typedef struct node {
     void* data;
     struct node* next;
-    #define HOLA2_H
 } node_t;
 
 typedef struct list {
