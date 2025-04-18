@@ -237,22 +237,19 @@ void rm_ntfs(ntfs_t* file){
     free(file);
 }
 
-list_t* listNew(type_t t);
-void listAddFirst(list_t* l, void* data); //copia el dato
-void* listGet(list_t* l, uint8_t i); //se asume: i < l->size
-void* listRemove(list_t* l, uint8_t i); //se asume: i < l->size
-void listDelete(list_t* l);
-
 list_t* listNew(type_t t) {
     list_t* l = malloc(sizeof(list_t));
     l->type = t; // l->type es equivalente a (*l).type
     l->size = 0;
     l->first = NULL;
+    l->last = NULL;
     return l;
 }
 
 void listAddFirst(list_t* l, void* data) {
     node_t* n = malloc(sizeof(node_t));
+    n->previous = NULL;
+    n->next = l->first;
     switch(l->type) {
         case TypeFAT32:
             n->data = (void*) copy_fat32((fat32_t*) data);
@@ -264,7 +261,13 @@ void listAddFirst(list_t* l, void* data) {
             n->data = (void*) copy_ntfs((ntfs_t*) data);
         break;
     }
-    n->next = l->first;
+    if(l->size == 0){
+        l->last = n;
+        l->first = n;
+        l->size++;
+        return;
+    }
+    l->first->previous = n;
     l->first = n;
     l->size++;
 }
@@ -272,6 +275,7 @@ void listAddFirst(list_t* l, void* data) {
 void listAddLast(list_t* l, void* data) {
     node_t* n = malloc(sizeof(node_t));
     n->next = NULL;
+    n->previous = l->last;
     switch(l->type) {
         case TypeFAT32:
             n->data = (void*) copy_fat32((fat32_t*) data);
@@ -285,41 +289,53 @@ void listAddLast(list_t* l, void* data) {
     }
     if(l->size == 0){
         l->first = n;
+        l->last = n;
         l->size++;
         return;
     }
-    node_t* ultNodo = l->first;
-    for(uint8_t i = 0; i < l->size-1; i++){
-        ultNodo = ultNodo->next;
-    }
-    ultNodo->next = n;
+    l->last->next = n;
+    l->last = n;
     l->size++;
 }
 
 //se asume: i < l->size
 void* listGet(list_t* l, uint8_t i){
     node_t* n = l->first;
-    for(uint8_t j = 0; j < i; j++)
-        n = n->next;
+    if(i < (l->size-1)/2){
+        for(uint8_t j = 0; j < i; j++){
+            n = n->next;
+        }
+    }else{
+        for(uint8_t j = l->size-1; j > i; j--){
+            n = n->next;
+        }
+    }
     return n->data;
 }
 //se asume: i < l->size
 void* listRemove(list_t* l, uint8_t i){
-    node_t* tmp = NULL;
-    void* data = NULL;
+    node_t* n = l->first;
     if(i == 0){
-        data = l->first->data;
-        tmp = l->first;
         l->first = l->first->next;
+        if(l->size == 1){
+            l->last = NULL;
+        }else{
+            l->first->previous = NULL;
+        }
+    }else if(i == l->size-1){
+        n = l->last;
+        l->last = l->last->previous;
+        l->last->next = NULL;
     }else{
-        node_t* n = l->first;
-        for(uint8_t j = 0; j < i - 1; j++)
-        n = n->next;
-        data = n->next->data;
-        tmp = n->next;
-        n->next = n->next->next;
+        for(uint8_t j = 0; j < i; j++){
+            n = n->next;
+        }
+        n->previous->next = n->next;
+        n->next->previous = n->previous;
     }
-    free(tmp);
+    void* data = n->data;
+    free(n->data);
+    free(n);
     l->size--;
     return data;
 }
@@ -371,8 +387,9 @@ void printLista(list_t* l){
 //se asume: i < l->size
 node_t* listGetNodo(list_t* l, uint8_t i){
     node_t* n = l->first;
-    for(uint8_t j = 0; j < i; j++)
+    for(uint8_t j = 0; j < i; j++){
         n = n->next;
+    }
     return n;
 }
 
@@ -385,5 +402,5 @@ void cambiarOrdenLista(list_t* l, uint8_t i, uint8_t j){
     node_t* nodo2 = listGetNodo(l, j);
     void* data1 = nodo1->data;
     nodo1->data = nodo2->data;
-    nodo2->data =  data1;
+    nodo2->data = data1;
 }

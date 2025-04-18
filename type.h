@@ -16,12 +16,14 @@ typedef enum e_type {
 typedef struct node {
     void* data;
     struct node* next;
+    struct node* previous;
 } node_t;
 
 typedef struct list {
     type_t type;
     uint8_t size;
     node_t* first;
+    node_t* last;
 } list_t;
 
 fat32_t* new_fat32();
