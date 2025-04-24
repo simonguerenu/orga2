@@ -90,7 +90,7 @@ alternate_sum_4_using_c_alternative:
     pop RBP
     ret
 
-;x1 -> EDI, x2 -> ESI, x3 -> EDX, x4 -> ECX, x5 -> R8, x6 -> R9, x7 -> [RSP + 16], x8 -> [RSP + 8]
+;x1 -> EDI, x2 -> ESI, x3 -> EDX, x4 -> ECX, x5 -> R8, x6 -> R9, x7 -> [RSP + 8], x8 -> [RSP + 16]
 alternate_sum_8:
     push RBP
     mov RBP, RSP ;alineado
@@ -103,14 +103,13 @@ alternate_sum_8:
 
     mov EDI, R12D
     mov ESI, R13D
-    mov EDX, [RBP + 24]
-    mov ECX, [RBP + 16]
+    mov EDX, [RBP + 16]
+    mov ECX, [RBP + 24]
     mov R12D, EAX
     call alternate_sum_4_using_c
 
-    mov R13D, EAX
     mov EDI, R12D
-    mov ESI, R13D
+    mov ESI, EAX
     call sumar_c
 
     pop R13
