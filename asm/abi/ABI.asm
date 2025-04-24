@@ -96,15 +96,34 @@ alternate_sum_4_using_c_alternative:
   ret
 
 
-; uint32_t alternate_sum_8(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4, uint32_t x5, uint32_t x6, uint32_t x7, uint32_t x8);
-; registros y pila: x1[?], x2[?], x3[?], x4[?], x5[?], x6[?], x7[?], x8[?]
+;
+;x1 --> EDI, x2 --> ESI, x3 --> EDX, x4 --> ECX, x5 --> R8D, x6 --> R9D, x7 --> [RSP + 8], x8 --> [RPS + 16]
 alternate_sum_8:
 	;prologo
+  push RBP ;alineado
+  mov RBP, RSP
+  push R12
+  push R13 ;(son no volatiles), alineado
+  
+  mov R12D, R8D
+  mov R13D, R9D
+  call alternate_sum_4_using_c
 
-	; COMPLETAR
+  mov EDI, R12D
+  mov ESI, R13D
+  mov EDX, [RBP + 16]
+  mov ECX, [RBP + 24]
+  mov R12D, EAX
+  call alternate_sum_4_using_c
 
-	;epilogo
-	ret
+  mov EDI, R12D
+  mov ESI, EAX
+  call sumar_c
+
+  pop R13
+  pop R12
+  pop RBP
+  ret
 
 
 ; SUGERENCIA: investigar uso de instrucciones para convertir enteros a floats y viceversa

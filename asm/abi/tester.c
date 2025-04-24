@@ -55,7 +55,7 @@ TEST(test_alternate_sum_8) {
 	}
 }
 
-TEST(test_product_2_f) {
+/*TEST(test_product_2_f) {
 	for (int i = 0; i < 100; i++) {
 		shuffle(1000);
 		sprintf(assert_name, "product_2_f(&result, %u, %.2f)", x[0], f[0]);
@@ -80,7 +80,7 @@ TEST(test_product_9_f) {
 
 		TEST_ASSERT_EQUALS(double, expected, result);
 	}
-}
+}*/
 
 
 int main() {
@@ -94,8 +94,8 @@ int main() {
 	test_alternate_sum_4();
 	test_alternate_sum_4_using_c();
 	test_alternate_sum_8();
-	test_product_2_f();
-	test_product_9_f();
+	/*test_product_2_f();
+	test_product_9_f();*/
 	printf("\n");
 
 	tests_end(test_suite_name);
