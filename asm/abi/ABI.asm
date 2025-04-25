@@ -118,9 +118,13 @@ alternate_sum_8:
     ret
 
 ; void product_2_f(uint32_t * destination, uint32_t x1, float f1);
-; registros: destination[?], x1[?], f1[?]
+; destination --> RDI, x1 --> RSI, f1 --> XMM0
 product_2_f:
-    ; COMPLETAR
+    CVTSS2SD XMM0, XMM0
+    CVTSI2SD XMM1, ESI
+    MULSD XMM0, XMM1
+    CVTTSD2SI ESI, XMM0
+    mov DWORD [RDI], ESI
     ret
 
 ; void product_9_f(double * destination, ..., float f9);
