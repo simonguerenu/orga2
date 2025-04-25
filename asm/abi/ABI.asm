@@ -128,21 +128,66 @@ product_2_f:
     ret
 
 ; void product_9_f(double * destination, ..., float f9);
-; registros y pila: destination[rdi], x1[?], f1[?], ..., x9[?], f9[?]
+; destination --> RDI, 
+; x1-->RSI, f2-->XMM0, 
+; x2-->RDX, f2-->XMM1, 
+; x3-->RCX, f3-->XMM2,
+; x4-->R8, f4--> XMM3,
+; x5-->R9, f5--> XMM4,
+; x6-->[RSP+8], f6--> XMM5,
+; x7-->[RSP+16], f7--> XMM6,
+; x8-->[RSP+24], f8--> XMM7,
+; x9-->[RSP+32], f9--> [RSP+40],
 product_9_f:
     ; prólogo
+    sub RSP, 8
     push RBP
     mov RBP, RSP
 
-    ; convertir floats a doubles
-    ; COMPLETAR
+    ;convierto float a dobles
+    CVTSS2SD XMM0, XMM0
+    CVTSS2SD XMM1, XMM1
+    CVTSS2SD XMM2, XMM2
+    CVTSS2SD XMM3, XMM3
+    CVTSS2SD XMM4, XMM4
+    CVTSS2SD XMM5, XMM5
+    CVTSS2SD XMM6, XMM6
+    CVTSS2SD XMM7, XMM7
+    CVTSS2SD XMM8, [RBP+56]
 
-    ; multiplicar doubles
-    ; COMPLETAR
-
+    ;multiplico dobles
+    MULSD XMM0, XMM1
+    MULSD XMM0, XMM2
+    MULSD XMM0, XMM3
+    MULSD XMM0, XMM4
+    MULSD XMM0, XMM5
+    MULSD XMM0, XMM6
+    MULSD XMM0, XMM7
+    MULSD XMM0, XMM8
+      
     ; convertir enteros a double y multiplicar
-    ; COMPLETAR
+    CVTSI2SD XMM1, ESI
+    CVTSI2SD XMM2, EDX
+    CVTSI2SD XMM3, ECX
+    CVTSI2SD XMM4, R8D
+    CVTSI2SD XMM5, R9D
+    CVTSI2SD XMM6, [RBP+24]
+    CVTSI2SD XMM7, [RBP+32]
+    CVTSI2SD XMM8, [RBP+40]
+    CVTSI2SD XMM9, [RBP+48]
 
-    ; epílogo
+    MULSD XMM0, XMM1
+    MULSD XMM0, XMM2
+    MULSD XMM0, XMM3
+    MULSD XMM0, XMM4
+    MULSD XMM0, XMM5
+    MULSD XMM0, XMM6
+    MULSD XMM0, XMM7
+    MULSD XMM0, XMM8
+    MULSD XMM0, XMM9
+    
+    MOVSD QWORD [RDI], XMM0
+
     pop RBP
+    add rsp, 8
     ret
