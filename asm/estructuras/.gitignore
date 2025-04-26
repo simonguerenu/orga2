@@ -1,0 +1,9 @@
+*.o
+main
+tester
+abi_enforcer_tester
+Estructuras_abi.o
+Estructuras_asm.o
+Estructuras_c.o
+abi_enforcer_regsave.o
+.gdb_history
