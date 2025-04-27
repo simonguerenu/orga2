@@ -37,16 +37,26 @@ strCmp:
 
 	equals:
 		mov rax, 0
-		jmp fin
+		jmp fin_cmp
 	char_differ:
 		sub rax, rcx
 		sar rax, 63
 		or rax, 1
-	fin:
+	fin_cmp:
 	ret
 
 ; char* strClone(char* a)
+;a->rdi
 strClone:
+	push rbp
+	mov rbp, rsp
+	mov r12, rdi
+	call strLen
+	xor rdx, rdx
+	mov rdx, rax
+	loop_clone:
+		malloc 
+	fin_leer_clone:
 	ret
 
 ; void strDelete(char* a)
@@ -58,7 +68,16 @@ strPrint:
 	ret
 
 ; uint32_t strLen(char* a)
+;a-->rdi
 strLen:
+	xor rax, rax
+	loop_len:
+		cmp BYTE [rdi], 0
+		je fin_len
+		add rax, 1
+		add rdi, 1
+		jmp loop_len
+	fin_len:
 	ret
 
 
