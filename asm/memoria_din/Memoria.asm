@@ -18,8 +18,9 @@ global strLen
 ;a-->rdi, b-->rsi
 strCmp:
 	xor rax, rax
-	mov al, BYTE [rdi]
-	mov cl, BYTE [rsi]
+	xor rcx, rcx
+	mov cl, BYTE [rdi]
+	mov al, BYTE [rsi]
 	loop_chequeo_letra:
 		cmp al, cl
 		jne char_differ
@@ -30,17 +31,17 @@ strCmp:
 
 		add rdi, 1
 		add rsi, 1
-		mov al, BYTE [rdi]
-		mov cl, BYTE [rsi]
+		mov cl, BYTE [rdi]
+		mov al, BYTE [rsi]
 		jmp loop_chequeo_letra
 
 	equals:
 		mov rax, 0
 		jmp fin
 	char_differ:
-		sub al, cl
-		sar al, 31
-		or al, 1
+		sub rax, rcx
+		sar rax, 63
+		or rax, 1
 	fin:
 	ret
 
