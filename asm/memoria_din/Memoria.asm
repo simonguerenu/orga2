@@ -52,10 +52,11 @@ strClone:
 	mov rbp, rsp
 	mov r12, rdi
 	call strLen
-	xor rdx, rdx
-	mov rdx, rax
-	loop_clone:
-		malloc 
+	mov rdi, r12 ;address
+	xor rdx, rdx 
+	mov rdx, rax ;longitud
+	
+	mul 
 	fin_leer_clone:
 	ret
 
