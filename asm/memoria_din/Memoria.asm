@@ -3,7 +3,8 @@ extern free
 extern fprintf
 
 section .data
-
+format_str: db "%s", 0
+null_str:   db "NULL", 0
 section .text
 
 global strCmp
@@ -50,22 +51,70 @@ strCmp:
 strClone:
 	push rbp
 	mov rbp, rsp
-	mov r12, rdi
-	call strLen
-	mov rdi, r12 ;address
-	xor rdx, rdx 
-	mov rdx, rax ;longitud
-	
-	mul 
+
+	push rdi
+	sub rsp, 8
+	call strLen 
+	add rsp, 8
+	pop rsi ;rsi = dir original
+
+	mov rdi, rax ;rdi = longitud
+	inc rdi ;hago espacio para '\0'
+
+	push rdi
+	push rsi
+	call malloc ;rax = dir nueva
+	pop rsi
+	pop rdi
+
+	dec rdi ;voy a usar rdi como longitud sin considerar '\0'
+	xor rdx, rdx ;rdx = index
+	mov rcx, rax ;rcx = dir nueva
+	xor r8, r8 ;r8b para mover bytes
+	loop_clone:
+		cmp rdx, rdi
+		jge fin_leer_clone
+		mov r8b, BYTE [rsi]
+		mov BYTE [rcx], r8b
+		inc rsi
+		inc rcx ;inc ambas direcciones por el offset
+		inc rdx
+		jmp loop_clone
 	fin_leer_clone:
+	mov BYTE [rcx], 0
+	mov rsp, rbp
+	pop rbp
 	ret
 
 ; void strDelete(char* a)
+;rdi --> a
 strDelete:
+	push rbp
+	mov rbp, rsp
+	call free
+	mov rsp, rbp
+	pop rbp
 	ret
 
-; void strPrint(char* a, FILE* pFile)
+; void strPrint(char* a, FILE* pFile) fprintf(pFile, %s, string)
+;rdi -> a, rsi -> pFile
 strPrint:
+	push rbp
+	mov rbp, rsp
+	mov rdx, rdi ;rdx = string
+	mov rdi, rsi ;rdi = pFile
+	mov rsi, format_str ;rsi = format
+	cmp BYTE [rdx], 0
+	je string_vacio
+	call fprintf
+	jmp fin
+	
+	string_vacio:
+		mov rdx, null_str
+		call fprintf
+	fin:
+	mov rsp, rbp
+	pop rbp
 	ret
 
 ; uint32_t strLen(char* a)
