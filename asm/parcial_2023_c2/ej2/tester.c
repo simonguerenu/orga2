@@ -24,12 +24,12 @@ void shuffle(uint32_t max){
             a[i][j].g = n+1;
             a[i][j].b = n+2;
             a[i][j].a = 255;
-            
+
             b[i][j].r = n;
             b[i][j].g = n-1;
             b[i][j].b = n-2;
             a[i][j].a = 255;
-                
+
             c[i][j].r = (uint8_t) rand() % max;
             c[i][j].g = (uint8_t) rand() % max;
             c[i][j].b = (uint8_t) rand() % max;
@@ -60,8 +60,8 @@ uint32_t shuffle_int(uint32_t min, uint32_t max){
 void test_ej2(char* filename) {
 
     uint8_t *res = malloc(H*W*4);
-    
-    void (*func_mezclarColores)( uint8_t *, uint8_t *, uint32_t , 
+
+    void (*func_mezclarColores)( uint8_t *, uint8_t *, uint32_t ,
                                uint32_t );
     if (USE_ASM_IMPL){
         func_mezclarColores = mezclarColores;

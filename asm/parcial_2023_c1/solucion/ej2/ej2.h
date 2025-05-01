@@ -1,5 +1,5 @@
-#ifndef EJ2
-#define EJ2
+#ifndef EJ2_H
+#define EJ2_H
 
 #include <stdio.h> 		//encabezado de funciones de entrada y salida fopen, fclose, fgetc, printf, fprintf ...
 #include <stdlib.h>		//biblioteca estándar, atoi, atof, rand, srand, abort, exit, system, NULL, malloc, calloc, realloc...
@@ -18,15 +18,15 @@ typedef struct bgra_t {
     unsigned char b, g, r, a;
 } __attribute__((packed)) bgra_t;
 
-#define USE_ASM_IMPL 0
+#define USE_ASM_IMPL 1
 
 
 //*******************************
 //Declaración de funciones de ej2
 //*******************************
-void mezclarColores( uint8_t *X, uint8_t *Y, uint32_t width,
-                          uint32_t height  );
-void mezclarColores_c( uint8_t *X, uint8_t *Y, uint32_t width,
-                          uint32_t height  );
+void miraQueCoincidencia( uint8_t *A, uint8_t *B, uint32_t N, 
+                          uint8_t *laCoincidencia );
+void miraQueCoincidencia_c( uint8_t *A, uint8_t *B, uint32_t N, 
+                          uint8_t *laCoincidencia );
 
-#endif /* EJ2 */
+#endif
