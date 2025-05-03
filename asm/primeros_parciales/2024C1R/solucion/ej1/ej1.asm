@@ -114,16 +114,16 @@ texto_imprimir:
 	mov [rbp - 8], rdi
 
 	; Este texto: ¿Literal o concatenacion?
-	cmp DWORD [rdi + TEXTO_CUALQUIERA_OFFSET_TIPO], TEXTO_LITERAL
+	cmp DWORD [rdi + TEXTO_CUALQUIERA_TIPO], TEXTO_LITERAL
 	je .literal
 .concatenacion:
 	; texto_imprimir(texto->izquierda)
-	mov rdi, [rdi + TEXTO_CONCATENACION_OFFSET_IZQUIERDA]
+	mov rdi, [rdi + TEXTO_CONCATENACION_IZQUIERDA]
 	call texto_imprimir
 
 	; texto_imprimir(texto->derecha)
 	mov rdi, [rbp - 8]
-	mov rdi, [rdi + TEXTO_CONCATENACION_OFFSET_DERECHA]
+	mov rdi, [rdi + TEXTO_CONCATENACION_DERECHA]
 	call texto_imprimir
 
 	; Terminamos
@@ -131,7 +131,7 @@ texto_imprimir:
 
 .literal:
 	; printf("%s", texto->contenido)
-	mov rsi, [rdi + TEXTO_LITERAL_OFFSET_CONTENIDO]
+	mov rsi, [rdi + TEXTO_LITERAL_CONTENIDO]
 	mov rdi, porciento_ese
 	mov al, 0
 	call printf
@@ -164,25 +164,25 @@ texto_liberar:
 	mov [rbp - 8], rdi
 
 	; ¿Nos usa alguien?
-	cmp DWORD [rdi + TEXTO_CUALQUIERA_OFFSET_USOS], 0
+	cmp DWORD [rdi + TEXTO_CUALQUIERA_USOS], 0
 	; Si la rta es sí no podemos liberar memoria aún
 	jne .fin_sin_liberar
 
 	; Este texto: ¿Es concatenacion?
-	cmp DWORD [rdi + TEXTO_CUALQUIERA_OFFSET_TIPO], TEXTO_LITERAL
+	cmp DWORD [rdi + TEXTO_CUALQUIERA_TIPO], TEXTO_LITERAL
 	; Si no es concatenación podemos liberarlo directamente
 	je .fin
 .concatenacion:
 	; texto->izquierda->usos--
-	mov rdi, [rdi + TEXTO_CONCATENACION_OFFSET_IZQUIERDA]
-	dec DWORD [rdi + TEXTO_CUALQUIERA_OFFSET_USOS]
+	mov rdi, [rdi + TEXTO_CONCATENACION_IZQUIERDA]
+	dec DWORD [rdi + TEXTO_CUALQUIERA_USOS]
 	; texto_liberar(texto->izquierda)
 	call texto_liberar
 
 	; texto->derecha->usos--
 	mov rdi, [rbp - 8]
-	mov rdi, [rdi + TEXTO_CONCATENACION_OFFSET_DERECHA]
-	dec DWORD [rdi + TEXTO_CUALQUIERA_OFFSET_USOS]
+	mov rdi, [rdi + TEXTO_CONCATENACION_DERECHA]
+	dec DWORD [rdi + TEXTO_CUALQUIERA_USOS]
 	; texto_liberar(texto->derecha)
 	call texto_liberar
 
@@ -249,16 +249,47 @@ texto_literal:
 ; Parámetros:
 ;   - izquierda: El texto que debería ir a la izquierda.
 ;   - derecha:   El texto que debería ir a la derecha.
+;texto_cualquiera* izquierda -> rdi, texto_cualquiera* derecha
 global texto_concatenar
-texto_concatenar: ;rdi = texto_cualquiera_t* izquierda, rsi = texto_cualquiera_t* derecha
-ret
+texto_concatenar:
+    push rbp
+    mov rbp, rsp
+    push r12
+    push r13
+    push r14
+    sub rsp, 8
+
+    mov r12, rdi ;r12 = izquierda
+    mov r13, rsi ;r13 = derecha
+    mov rdi, TEXTO_CONCATENACION_SIZE
+    call malloc
+    mov r14, rax ;r14 = resultado
+    mov dword [r14 + TEXTO_CONCATENACION_TIPO], TEXTO_CONCATENACION
+    mov dword [r14 + TEXTO_CONCATENACION_USOS], 0
+    mov ecx, dword [r12 + TEXTO_CUALQUIERA_USOS]
+    inc ecx
+    mov dword [r12 + TEXTO_CUALQUIERA_USOS], ecx
+    mov ecx, dword [r13 + TEXTO_CUALQUIERA_USOS]
+    inc ecx
+    mov dword [r13 + TEXTO_CUALQUIERA_USOS], ecx
+    mov qword [r14 + TEXTO_CONCATENACION_IZQUIERDA], r12
+    mov qword [r14 + TEXTO_CONCATENACION_DERECHA], r13
+    mov rax, r14
+
+    add rsp, 8
+    pop r14
+    pop r13
+    pop r12
+    mov rsp, rbp
+    pop rbp
+    ret
 
 ; Marca el ejercicio 1B como hecho (`true`) o pendiente (`false`).
 ;
 ; Funciones a implementar:
 ;   - texto_tamanio_total
 global EJERCICIO_1B_HECHO
-EJERCICIO_1B_HECHO: db FALSE ; Cambiar por `TRUE` para correr los tests.
+EJERCICIO_1B_HECHO: db TRUE ; Cambiar por `TRUE` para correr los tests.
 
 ; Calcula el tamaño total de un `texto_cualquiera_t`. Es decir, suma todos los
 ; campos `tamanio` involucrados en el mismo.
@@ -266,8 +297,33 @@ EJERCICIO_1B_HECHO: db FALSE ; Cambiar por `TRUE` para correr los tests.
 ; Parámetros:
 ;   - texto: El texto en cuestión.
 global texto_tamanio_total
-texto_tamanio_total: ;rdi = texto_cualquiera* texto
-ret
+;rdi -> texto_cualquiera_t* texto
+;uint64_t
+texto_tamanio_total:
+    push rbp
+    mov rbp, rsp
+    push r12
+    push r13
+    mov r12, rdi ;r12 = texto
+    mov esi, [r12 + TEXTO_CUALQUIERA_TIPO]
+    cmp esi, dword TEXTO_LITERAL
+    jne .tipo_no_literal
+        mov rdi, [r12 + TEXTO_LITERAL_CONTENIDO]
+        call strlen
+        jmp .fin_texto_tamanio_total
+    .tipo_no_literal:
+        mov rdi, [r12 + TEXTO_CONCATENACION_IZQUIERDA]
+        call texto_tamanio_total
+        mov r13, rax
+        mov rdi, [r12 + TEXTO_CONCATENACION_DERECHA]
+        call texto_tamanio_total
+        add rax, r13
+    .fin_texto_tamanio_total:
+    pop r13
+    pop r12
+    mov rsp, rbp
+    pop rbp
+    ret
 
 ; Marca el ejercicio 1C como hecho (`true`) o pendiente (`false`).
 ;
