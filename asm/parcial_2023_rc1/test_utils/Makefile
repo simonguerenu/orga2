@@ -15,5 +15,6 @@ venv:
 
 clean:
 	rm -f asm_defs.txt global_foos.txt
+	rm -rf venv
 
 .PHONY: asm_defs.txt
