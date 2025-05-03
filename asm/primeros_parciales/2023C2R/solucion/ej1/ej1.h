@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <stdbool.h>
 
-#define USE_ASM_IMPL 1
+#define USE_ASM_IMPL 0
 
 /** Lista **/
 typedef struct string_proc_list_t {
@@ -20,7 +20,7 @@ typedef struct string_proc_node_t {
 	uint8_t type;
 	char* hash;
 } string_proc_node;
-       
+
 /** Funciones a implementar:  **/
 string_proc_list* string_proc_list_create(void);
 string_proc_list* string_proc_list_create_asm(void);
@@ -46,7 +46,7 @@ void string_proc_list_destroy(string_proc_list* list);
 void string_proc_node_destroy(string_proc_node* node);
 
 /**
- * 	Concatena dos strings a y b. 
+ * 	Concatena dos strings a y b.
  *  Retorna el resultado en uno nuevo, creado via malloc.
 */
 char* str_concat(char* a, char* b);

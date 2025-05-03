@@ -127,7 +127,6 @@ uint64_t texto_tamanio_total(texto_cualquiera_t* texto) {
 	if (texto->tipo == TEXTO_LITERAL) {
 		texto_literal_t* literal = (texto_literal_t*) texto;
 		return strlen(literal->contenido);
-		return 0;
 	} else {
 		texto_concatenacion_t* concatenacion = (texto_concatenacion_t*) texto;
 		return texto_tamanio_total(concatenacion->izquierda) + texto_tamanio_total(concatenacion->derecha);
