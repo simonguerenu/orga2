@@ -330,7 +330,7 @@ texto_tamanio_total:
 ; Funciones a implementar:
 ;   - texto_chequear_tamanio
 global EJERCICIO_1C_HECHO
-EJERCICIO_1C_HECHO: db FALSE; Cambiar por `TRUE` para correr los tests.
+EJERCICIO_1C_HECHO: db TRUE; Cambiar por `TRUE` para correr los tests.
 
 ; Chequea si los tamaños de todos los nodos literales internos al parámetro
 ; corresponden al tamaño de la cadenas que apuntadan.
@@ -338,7 +338,33 @@ EJERCICIO_1C_HECHO: db FALSE; Cambiar por `TRUE` para correr los tests.
 ; Es decir: si los campos `tamanio` están bien calculados.
 ;
 ; Parámetros:
-;   - texto: El texto verificar.
+;rdi -> texto_cualquiera* texto
 global texto_chequear_tamanio
 texto_chequear_tamanio: ; rdi = texto_cualquiera_t* texto
-ret
+    push rbp
+    mov rbp, rsp
+    push r12
+    push r13
+    mov r12, rdi ;r12 = texto
+    mov esi, dword [r12 + TEXTO_CUALQUIERA_TIPO]
+    cmp esi, dword TEXTO_LITERAL
+    jne .tipo_no_literal_2
+        call texto_tamanio_total
+        cmp rax, qword [r12 + TEXTO_LITERAL_TAMANIO]
+        sete al
+        jmp .fin_texto_chequear_tamanio
+    .tipo_no_literal_2:
+        mov rdi, qword [r12 + TEXTO_CONCATENACION_IZQUIERDA]
+        call texto_chequear_tamanio
+        mov r13b, al
+        mov rdi, qword [r12 + TEXTO_CONCATENACION_DERECHA]
+        call texto_chequear_tamanio
+        and r13b, al
+        cmp r13b, byte 1
+        sete al
+    .fin_texto_chequear_tamanio:
+    pop r13
+    pop r12
+    mov rsp, rbp
+    pop rbp
+    ret
