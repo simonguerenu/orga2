@@ -26,10 +26,7 @@ uint32_t proyecto_mas_dificil(lista_t* lista) {
  * - Se debe actualizar el `sum` del nodo actualizado de la lista
  */
 void marcar_tarea_completada(lista_t* lista, size_t index) {
-    if(!lista){
-        return;
-    }
-    while(index > (size_t) lista->size){
+    while(index >= (size_t) lista->size){
         index -= (size_t) lista->size;
         lista = lista->next;
     }
@@ -79,8 +76,9 @@ uint64_t tareas_completadas(uint32_t* array, size_t size) {
  *   esquema implementativo recomendado
  */
 uint64_t* tareas_completadas_por_proyecto(lista_t* lista) {
-    uint64_t* lista_tareas_completadas = calloc(lista_len(lista), sizeof(uint64_t));
-    for(uint64_t i = 0; i < lista_len(lista); i++){
+    uint64_t len = lista_len(lista);
+    uint64_t* lista_tareas_completadas = calloc(len, sizeof(uint64_t));
+    for(uint64_t i = 0; i < len; i++){
         lista_tareas_completadas[i] = tareas_completadas(lista->array, lista->size);
         lista = lista->next;
     }
