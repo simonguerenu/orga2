@@ -1,5 +1,9 @@
 #ifndef HOLA_H
 #define HOLA_H
+<<<<<<< HEAD
+
+void hola1(void);
+=======
 #include "type.h" 
 
 
@@ -11,5 +15,6 @@ void* listRemove(list_t* l, uint8_t i);
 void listAddLast(list_t* l, void* data); 
 void printLista(list_t* l);
 void cambiarOrdenLista(list_t* l, uint8_t i, uint8_t j);
+>>>>>>> desarrollo
 
 #endif

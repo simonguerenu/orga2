@@ -3,10 +3,15 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "hola.h"
+<<<<<<< HEAD
+#include <inttypes.h>
+#include <time.h>
+=======
 #include "type.h"
 #include <inttypes.h>
 #include <time.h>
 
+>>>>>>> desarrollo
 void ej3() {
         //Ejercicio3
         char c = 'c';
@@ -19,6 +24,17 @@ void ej3() {
         unsigned long ul = 3942345L;
         long long ll = 2093435L;
 
+<<<<<<< HEAD
+        printf("Tamaño char 2^%lu, valor: %c \n", sizeof(c), c);
+        printf("Tamaño unsigned char 2^%lu, valor: %hhu \n", sizeof(uc), uc);
+        printf("Tamaño short 2^%lu, valor: %d \n", sizeof(s), s);
+        printf("Tamaño unsigned short 2^%lu, valor: %hu \n", sizeof(us), us);
+        printf("Tamaño int 2^%lu, valor: %d \n", sizeof(i), i);
+        printf("Tamaño unsigned int 2^%lu, valor: %u \n", sizeof(u), u);
+        printf("Tamaño long 2^%lu, valor: %ld \n", sizeof(l), l);
+        printf("Tamaño unsigned long 2^%lu, valor: %lu \n", sizeof(ul), ul);
+        printf("Tamaño long long 2^%lu, valor: %lld \n", sizeof(ll), ll); 
+=======
         printf("Tamaño char 2^%zu, valor: %c \n", sizeof(c), c);
         printf("Tamaño unsigned char 2^%zu, valor: %hhu \n", sizeof(uc), uc);
         printf("Tamaño short 2^%zu, valor: %d \n", sizeof(s), s);
@@ -28,6 +44,7 @@ void ej3() {
         printf("Tamaño long 2^%zu, valor: %ld \n", sizeof(l), l);
         printf("Tamaño unsigned long 2^%zu, valor: %lu \n", sizeof(ul), ul);
         printf("Tamaño long long 2^%zu, valor: %lld \n", sizeof(ll), ll); 
+>>>>>>> desarrollo
     }
 
 void ej4() {
@@ -36,18 +53,32 @@ void ej4() {
         int16_t int16 = -340;
         int32_t int32 = 23000;
         int64_t int64 = -19390354;
+<<<<<<< HEAD
+        printf("Tamaño int8: %lu, Tamaño valor: %"PRId8 "\n", sizeof(int8), int8);
+        printf("Tamaño int16: %lu, Tamaño valor: %"PRId16 "\n", sizeof(int16), int16);
+        printf("Tamaño int32: %lu, Tamaño valor: %"PRId32 "\n", sizeof(int32), int32);
+        printf("Tamaño int64: %lu, Tamaño valor: %"PRId64 "\n", sizeof(int64), int64);
+=======
         printf("Tamaño int8: %zu, Tamaño valor: %" PRId8 "\n", sizeof(int8), int8);
         printf("Tamaño int16: %zu, Tamaño valor: %" PRId16 "\n", sizeof(int16), int16);
         printf("Tamaño int32: %zu, Tamaño valor: %" PRId32 "\n", sizeof(int32), int32);
         printf("Tamaño int64: %zu, Tamaño valor: %" PRId64 "\n", sizeof(int64), int64);
+>>>>>>> desarrollo
         uint8_t uint8 = 200;
         uint16_t uint16 = 540;
         uint32_t uint32 = 73300;
         uint64_t uint64 = 850354;
+<<<<<<< HEAD
+        printf("Tamaño int8: %lu, Tamaño valor: %"PRId8 "\n", sizeof(uint8), uint8);
+        printf("Tamaño int16: %lu, Tamaño valor: %"PRIu16 "\n", sizeof(uint16), uint16);
+        printf("Tamaño int32: %lu, Tamaño valor: %"PRIu32 "\n", sizeof(uint32), uint32);
+        printf("Tamaño int64: %lu, Tamaño valor: %"PRIu64 "\n", sizeof(uint64), uint64);
+=======
         printf("Tamaño int8: %zu, Tamaño valor: %" PRId8 "\n", sizeof(uint8), uint8);
         printf("Tamaño int16: %zu, Tamaño valor: %" PRIu16 "\n", sizeof(uint16), uint16);
         printf("Tamaño int32: %zu, Tamaño valor: %" PRIu32 "\n", sizeof(uint32), uint32);
         printf("Tamaño int64: %zu, Tamaño valor: %" PRIu64 "\n", sizeof(uint64), uint64);
+>>>>>>> desarrollo
     }
 
 void ej5(){
@@ -66,11 +97,19 @@ void ej6(){
     111, 110, 32, 97, 110, 100, 32, 105, 108, 108, 117, 115, 105, 111, 110};
     size_t length = sizeof(mensaje_secreto) / sizeof(int);
     char decoded[length];
+<<<<<<< HEAD
+    for (int i = 0; i < length; i++) {
+    decoded[i] = (char) (mensaje_secreto[i]); // casting de int a char
+    }
+    for (int i = 0; i < length; i++) {
+    printf("%c", decoded[i]);
+=======
     for (size_t i = 0; i < length; i++) {
         decoded[i] = (char) (mensaje_secreto[i]); // casting de int a char
     }
     for (size_t i = 0; i < length; i++) {
         printf("%c", decoded[i]);
+>>>>>>> desarrollo
     }
 
 }
@@ -87,10 +126,17 @@ void ej7(){
     int resultado4_1 = a & b;
     int resultado4_2 = a | b;
     int resultado5 = ~a;
+<<<<<<< HEAD
+    int resultado6_1 = a && b;
+    int resultado6_2 = a && b;
+    int resultado7 = a << 1;
+    int resultado8 = a >> 1;
+=======
     /*int resultado6_1 = a && b;
     int resultado6_2 = a && b;*/
     int resultado7 = a << 1;
     //int resultado8 = a >> 1;
+>>>>>>> desarrollo
     int resultado9_1 = a+=b;
     int resultado9_2 = a-=b;
     int resultado9_3 = a*=b;
@@ -195,6 +241,8 @@ void hola1(){
 }
 
 
+<<<<<<< HEAD
+=======
 fat32_t* new_fat32(){
     return malloc(sizeof(fat32_t));
 }
@@ -404,3 +452,4 @@ void cambiarOrdenLista(list_t* l, uint8_t i, uint8_t j){
     nodo1->data = nodo2->data;
     nodo2->data = data1;
 }
+>>>>>>> desarrollo

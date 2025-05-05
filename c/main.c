@@ -1,5 +1,12 @@
 #include <stdio.h>
 #include "hola.h"
+<<<<<<< HEAD
+#include "hola2.h"
+int main(){
+    hola1();
+    hola2();
+    return 0;
+=======
 #include "type.h"
 int main(){
     list_t* l = listNew(TypeEXT4);
@@ -16,4 +23,5 @@ int main(){
     cambiarOrdenLista(l, 1, 2);
     printLista(l);
     listDelete(l);
+>>>>>>> desarrollo
 }
