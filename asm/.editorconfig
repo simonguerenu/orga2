@@ -1,0 +1,23 @@
+# .editorconfig
+
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.sh]
+indent_size = 4
+
+[*.c]
+indent_size = 4
+
+[*.h]
+indent_size = 4
+
+[*.asm]
+indent_size = 4
